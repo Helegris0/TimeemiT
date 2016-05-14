@@ -10,7 +10,7 @@ namespace TimeServices {
 
     public class LoginService : ILoginService {
 
-        DBConnection dbConn = new DBConnection(@"D:\\database.sqlite");
+        DBConnection dbConn = new DBConnection();
 
         public User Login(string username, string password) {
             return dbConn.Login(username, password);

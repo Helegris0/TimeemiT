@@ -12,6 +12,9 @@ namespace TimeServices {
         SQLiteConnection sqliteConnection;
         string dbPath;
 
+        public DBConnection() : this(@"D:\\database.sqlite") {
+        }
+
         public DBConnection(string path) {
             dbPath = path;
             sqliteConnection = new SQLiteConnection(string.Format("Data Source = {0}; Version = 3;", dbPath));
@@ -43,6 +46,49 @@ namespace TimeServices {
             sqliteConnection.Close();
 
             return user;
+        }
+
+        public void StartWork(User user, DateTime startTime) {
+            sqliteConnection.Open();
+
+            using (SQLiteCommand command = sqliteConnection.CreateCommand()) {
+                command.CommandText = string.Format("INSERT INTO Times (username, start) VALUES('{0}', {1})", user.Username, DateTimeToUnixTime(startTime));
+                command.ExecuteNonQuery();
+            }
+
+            sqliteConnection.Close();
+        }
+
+        public void EndWork(User user, DateTime endTime) {
+            sqliteConnection.Open();
+
+            using (SQLiteCommand commandSelect = sqliteConnection.CreateCommand()) {
+                commandSelect.CommandText = string.Format("SELECT id FROM Times WHERE username='{0}' AND end IS NULL ORDER BY start DESC LIMIT 1", user.Username);
+
+                using (SQLiteDataReader reader = commandSelect.ExecuteReader()) {
+                    if (reader.Read()) {
+                        long id = (long)reader["id"];
+                        using (SQLiteCommand commandUpdate = sqliteConnection.CreateCommand()) {
+                            commandUpdate.CommandText = string.Format("UPDATE Times SET end={0} WHERE id={1}", DateTimeToUnixTime(endTime), id);
+                            commandUpdate.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+
+            sqliteConnection.Close();
+        }
+
+        private long DateTimeToUnixTime(DateTime datetime) {
+            DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+            return (long)(datetime - sTime).TotalSeconds;
+        }
+
+        private DateTime UnixTimeToDateTime(long unixtime) {
+            DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+            return sTime.AddSeconds(unixtime);
         }
     }
 }
