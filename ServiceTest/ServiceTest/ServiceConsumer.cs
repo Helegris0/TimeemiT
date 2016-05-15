@@ -103,6 +103,30 @@ namespace ServiceTest {
             return timesForDays;
         }
 
+        public Dictionary<DateTime, TimeSpan> GetTimesInInterval(User user, DateTime sinceDate, DateTime untilDate) {
+            var myBinding = new BasicHttpBinding();
+            var myEndpoint = new EndpointAddress(checkTimeWebServiceName);
+            ChannelFactory<ICheckTimeService> myChannelFactory = new ChannelFactory<ICheckTimeService>(myBinding, myEndpoint);
+
+            ICheckTimeService client = myChannelFactory.CreateChannel();
+
+            Dictionary<DateTime, TimeSpan> timesForDays = null;
+
+            try {
+                timesForDays = client.GetTimesInInterval(user, sinceDate, untilDate);
+            } catch (Exception) {
+                if (client != null) {
+                    ((ICommunicationObject)client).Abort();
+                }
+            }
+
+            if (((ICommunicationObject)client).State == CommunicationState.Opened) {
+                ((ICommunicationObject)client).Close();
+            }
+
+            return timesForDays;
+        }
+
         public List<User> GetAllWorkers() {
             var myBinding = new BasicHttpBinding();
             var myEndpoint = new EndpointAddress(getUsersWebServiceName);

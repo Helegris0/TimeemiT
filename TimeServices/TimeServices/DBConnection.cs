@@ -110,6 +110,39 @@ namespace TimeServices {
             return timesForDays;
         }
 
+        public Dictionary<DateTime, TimeSpan> GetTimesInInterval(User user, DateTime sinceDate, DateTime untilDate) {
+            Dictionary<DateTime, TimeSpan> timesForDays = new Dictionary<DateTime, TimeSpan>();
+            long sinceUnix = DateTimeToUnixTime(sinceDate.Date);
+            long untilUnix = DateTimeToUnixTime(untilDate.AddDays(1).Date);
+
+            sqliteConnection.Open();
+
+            using (SQLiteCommand command = sqliteConnection.CreateCommand()) {
+                command.CommandText = string.Format("SELECT * FROM Times WHERE username='{0}' AND {1} < start AND end < {2}", user.Username, sinceUnix, untilUnix);
+
+                using (SQLiteDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        DateTime startDateTime = UnixTimeToDateTime((long)reader["start"]);
+                        DateTime endDateTime = UnixTimeToDateTime((long)reader["end"]);
+                        DateTime day = startDateTime.Date;
+                        if (day.Equals(endDateTime.Date)) {
+                            TimeSpan timeSpan = endDateTime.Subtract(startDateTime);
+
+                            if (timesForDays.ContainsKey(day)) {
+                                timesForDays[day] = timesForDays[day].Add(timeSpan);
+                            } else {
+                                timesForDays.Add(day, timeSpan);
+                            }
+                        }
+                    }
+                }
+            }
+
+            sqliteConnection.Close();
+
+            return timesForDays;
+        }
+
         public List<User> GetAllWorkers() {
             Role role = Role.WORKER;
             List<User> workers = new List<User>();

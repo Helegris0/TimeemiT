@@ -34,15 +34,26 @@ namespace ServiceTest {
             user.Username = username;
             user.Role = Role.WORKER;
 
-            //consumer.StartWork(user, DateTime.Now.AddHours(-4));
-            //consumer.EndWork(user, DateTime.Now);
+            //consumer.StartWork(user, DateTime.Now.AddHours(-4).AddDays(-1));
+            //consumer.EndWork(user, DateTime.Now.AddDays(-1));
+
+
+            //consumer.StartWork(user, DateTime.Now.AddHours(-4).AddDays(-2));
+            //consumer.EndWork(user, DateTime.Now.AddDays(-2));
 
             return user;
         }
 
         static void TestCheckTime() {
+            ServiceConsumer consumer = new ServiceConsumer();
             User user = TestSubmitTime("rscott");
-            Dictionary<DateTime, TimeSpan> dictionary = new ServiceConsumer().GetTimes(user);
+            Dictionary<DateTime, TimeSpan> dictionary = consumer.GetTimes(user);
+            foreach (var item in dictionary) {
+                Console.WriteLine(item.Key + " " + item.Value);
+            }
+
+            dictionary = consumer.GetTimesInInterval(user, DateTime.Now.AddDays(-1).Date, DateTime.Now.Date);
+            Console.WriteLine("");
             foreach (var item in dictionary) {
                 Console.WriteLine(item.Key + " " + item.Value);
             }

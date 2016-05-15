@@ -17,9 +17,7 @@ namespace TimeServices {
         }
 
         public Dictionary<DateTime, TimeSpan> GetTimesInInterval(User user, DateTime sinceDate, DateTime untilDate) {
-            //TODO
-            //dbConn.GetTimesInInterval(user, sinceDate, untilDate);
-            return null;
+            return dbConn.GetTimesInInterval(user, sinceDate, untilDate);
         }
     }
 }
