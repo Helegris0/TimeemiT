@@ -10,7 +10,7 @@ namespace TimeServices {
 
     public class GetUsersService : IGetUsersService {
 
-        DBConnection dbConn = new DBConnection();
+        private DBConnection dbConn = new DBConnection();
 
         public List<User> GetAllWorkers() {
             return dbConn.GetAllWorkers();

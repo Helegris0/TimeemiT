@@ -116,6 +116,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CheckTimeService.svc" />
     <Content Include="GetUsersService.svc" />
     <Content Include="LoginService.svc" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
@@ -124,6 +125,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckTimeService.svc.cs">
+      <DependentUpon>CheckTimeService.svc</DependentUpon>
+    </Compile>
     <Compile Include="DBConnection.cs" />
     <Compile Include="GetUsersService.svc.cs">
       <DependentUpon>GetUsersService.svc</DependentUpon>

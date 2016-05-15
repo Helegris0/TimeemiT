@@ -79,6 +79,37 @@ namespace TimeServices {
             sqliteConnection.Close();
         }
 
+        public Dictionary<DateTime, TimeSpan> GetTimes(User user) {
+            Dictionary<DateTime, TimeSpan> timesForDays = new Dictionary<DateTime, TimeSpan>();
+
+            sqliteConnection.Open();
+
+            using (SQLiteCommand command = sqliteConnection.CreateCommand()) {
+                command.CommandText = string.Format("SELECT * FROM Times WHERE username='{0}' AND start IS NOT NULL AND end IS NOT NULL", user.Username);
+
+                using (SQLiteDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        DateTime startDateTime = UnixTimeToDateTime((long)reader["start"]);
+                        DateTime endDateTime = UnixTimeToDateTime((long)reader["end"]);
+                        DateTime day = startDateTime.Date;
+                        if (day.Equals(endDateTime.Date)) {
+                            TimeSpan timeSpan = endDateTime.Subtract(startDateTime);
+
+                            if (timesForDays.ContainsKey(day)) {
+                                timesForDays[day] = timesForDays[day].Add(timeSpan);
+                            } else {
+                                timesForDays.Add(day, timeSpan);
+                            }
+                        }
+                    }
+                }
+            }
+
+            sqliteConnection.Close();
+
+            return timesForDays;
+        }
+
         public List<User> GetAllWorkers() {
             Role role = Role.WORKER;
             List<User> workers = new List<User>();

@@ -12,6 +12,7 @@ namespace ServiceTest {
 
         private string loginWebServiceName = "http://localhost:55374/LoginService.svc";
         private string submitTimeWebServiceName = "http://localhost:55374/SubmitTimeService.svc";
+        private string checkTimeWebServiceName = "http://localhost:55374/CheckTimeService.svc";
         private string getUsersWebServiceName = "http://localhost:55374/GetUsersService.svc";
 
         public bool Login(string username, string password) {
@@ -76,6 +77,30 @@ namespace ServiceTest {
             if (((ICommunicationObject)client).State == CommunicationState.Opened) {
                 ((ICommunicationObject)client).Close();
             }
+        }
+
+        public Dictionary<DateTime, TimeSpan> GetTimes(User user) {
+            var myBinding = new BasicHttpBinding();
+            var myEndpoint = new EndpointAddress(checkTimeWebServiceName);
+            ChannelFactory<ICheckTimeService> myChannelFactory = new ChannelFactory<ICheckTimeService>(myBinding, myEndpoint);
+
+            ICheckTimeService client = myChannelFactory.CreateChannel();
+
+            Dictionary<DateTime, TimeSpan> timesForDays = null;
+
+            try {
+                timesForDays = client.GetTimes(user);
+            } catch (Exception) {
+                if (client != null) {
+                    ((ICommunicationObject)client).Abort();
+                }
+            }
+
+            if (((ICommunicationObject)client).State == CommunicationState.Opened) {
+                ((ICommunicationObject)client).Close();
+            }
+
+            return timesForDays;
         }
 
         public List<User> GetAllWorkers() {

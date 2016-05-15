@@ -11,8 +11,9 @@ namespace ServiceTest {
 
         static void Main(string[] args) {
             //TestLogin();
-            //TestSubmitTime();
-            TestGetAllWorkers();
+            //TestSubmitTime("srowe");
+            TestCheckTime();
+            //TestGetAllWorkers();
         }
 
         static void TestLogin() {
@@ -27,14 +28,26 @@ namespace ServiceTest {
             Console.ReadKey();
         }
 
-        static void TestSubmitTime() {
+        static User TestSubmitTime(string username) {
             ServiceConsumer consumer = new ServiceConsumer();
             User user = new User();
-            user.Username = "vmoss";
+            user.Username = username;
             user.Role = Role.WORKER;
 
-            consumer.StartWork(user, DateTime.Now.AddHours(-4));
-            consumer.EndWork(user, DateTime.Now);
+            //consumer.StartWork(user, DateTime.Now.AddHours(-4));
+            //consumer.EndWork(user, DateTime.Now);
+
+            return user;
+        }
+
+        static void TestCheckTime() {
+            User user = TestSubmitTime("rscott");
+            Dictionary<DateTime, TimeSpan> dictionary = new ServiceConsumer().GetTimes(user);
+            foreach (var item in dictionary) {
+                Console.WriteLine(item.Key + " " + item.Value);
+            }
+
+            Console.ReadKey();
         }
 
         static void TestGetAllWorkers() {

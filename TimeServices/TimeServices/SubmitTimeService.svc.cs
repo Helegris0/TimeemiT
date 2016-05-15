@@ -10,7 +10,7 @@ namespace TimeServices {
 
     public class SubmitTimeService : ISubmitTimeService {
 
-        DBConnection dbConn = new DBConnection();
+        private DBConnection dbConn = new DBConnection();
 
         public void StartWork(User user, DateTime startTime) {
             dbConn.StartWork(user, startTime);

@@ -11,9 +11,9 @@ namespace UserService {
     public interface ICheckTimeService {
 
         [OperationContract]
-        Dictionary<DateTime, DateTime> GetTimes(User user);
+        Dictionary<DateTime, TimeSpan> GetTimes(User user);
 
         [OperationContract]
-        Dictionary<DateTime, DateTime> GetTimesInInterval(User user, DateTime sinceDate, DateTime untilDate);
+        Dictionary<DateTime, TimeSpan> GetTimesInInterval(User user, DateTime sinceDate, DateTime untilDate);
     }
 }
