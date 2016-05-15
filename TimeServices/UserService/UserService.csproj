@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICheckTimeService.cs" />
+    <Compile Include="IGetUsersService.cs" />
     <Compile Include="ILoginService.cs" />
     <Compile Include="ISubmitTimeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

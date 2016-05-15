@@ -12,6 +12,7 @@ namespace ServiceTest {
 
         private string loginWebServiceName = "http://localhost:55374/LoginService.svc";
         private string submitTimeWebServiceName = "http://localhost:55374/SubmitTimeService.svc";
+        private string getUsersWebServiceName = "http://localhost:55374/GetUsersService.svc";
 
         public bool Login(string username, string password) {
             var myBinding = new BasicHttpBinding();
@@ -75,6 +76,30 @@ namespace ServiceTest {
             if (((ICommunicationObject)client).State == CommunicationState.Opened) {
                 ((ICommunicationObject)client).Close();
             }
+        }
+
+        public List<User> GetAllWorkers() {
+            var myBinding = new BasicHttpBinding();
+            var myEndpoint = new EndpointAddress(getUsersWebServiceName);
+            ChannelFactory<IGetUsersService> myChannelFactory = new ChannelFactory<IGetUsersService>(myBinding, myEndpoint);
+
+            IGetUsersService client = myChannelFactory.CreateChannel();
+
+            List<User> workers = null;
+
+            try {
+                workers = client.GetAllWorkers();
+            } catch (Exception) {
+                if (client != null) {
+                    ((ICommunicationObject)client).Abort();
+                }
+            }
+
+            if (((ICommunicationObject)client).State == CommunicationState.Opened) {
+                ((ICommunicationObject)client).Close();
+            }
+
+            return workers;
         }
     }
 }

@@ -11,7 +11,8 @@ namespace ServiceTest {
 
         static void Main(string[] args) {
             //TestLogin();
-            TestSubmitTime();
+            //TestSubmitTime();
+            TestGetAllWorkers();
         }
 
         static void TestLogin() {
@@ -34,6 +35,13 @@ namespace ServiceTest {
 
             consumer.StartWork(user, DateTime.Now.AddHours(-4));
             consumer.EndWork(user, DateTime.Now);
+        }
+
+        static void TestGetAllWorkers() {
+            List<User> workers = new ServiceConsumer().GetAllWorkers();
+            workers.ForEach(worker => Console.WriteLine(worker.GetName()));
+
+            Console.ReadKey();
         }
     }
 }

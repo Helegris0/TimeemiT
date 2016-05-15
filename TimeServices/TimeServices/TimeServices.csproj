@@ -112,10 +112,11 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UserService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\UserService\obj\Debug\UserService.dll</HintPath>
+      <HintPath>..\UserService\bin\Debug\UserService.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GetUsersService.svc" />
     <Content Include="LoginService.svc" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
@@ -124,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBConnection.cs" />
+    <Compile Include="GetUsersService.svc.cs">
+      <DependentUpon>GetUsersService.svc</DependentUpon>
+    </Compile>
     <Compile Include="LoginService.svc.cs">
       <DependentUpon>LoginService.svc</DependentUpon>
     </Compile>

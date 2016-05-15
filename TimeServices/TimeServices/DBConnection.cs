@@ -79,6 +79,29 @@ namespace TimeServices {
             sqliteConnection.Close();
         }
 
+        public List<User> GetAllWorkers() {
+            Role role = Role.WORKER;
+            List<User> workers = new List<User>();
+
+            sqliteConnection.Open();
+
+            using (SQLiteCommand command = sqliteConnection.CreateCommand()) {
+                command.CommandText = string.Format("SELECT * FROM Users WHERE role_id={0}", (long)role);
+
+                using (SQLiteDataReader reader = command.ExecuteReader()) {
+                    while (reader.Read()) {
+                        string username = (string)reader["username"];
+                        string firstName = (string)reader["first_name"];
+                        string lastName = (string)reader["last_name"];
+                        string password = (string)reader["password"];
+                        workers.Add(new User(username, firstName, lastName, password, role));
+                    }
+                }
+            }
+
+            return workers;
+        }
+
         private long DateTimeToUnixTime(DateTime datetime) {
             DateTime sTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
