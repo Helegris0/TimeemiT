@@ -86,7 +86,7 @@ namespace WorkerClient
         {
             if (endDateTimePicker.Value != null)
             {
-                serviceConsumer.StartWork(user, (DateTime)endDateTimePicker.Value);
+                serviceConsumer.EndWork(user, (DateTime)endDateTimePicker.Value);
 
                 StartInputIsEnabled(true);
             }
