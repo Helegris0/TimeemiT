@@ -1,0 +1,48 @@
+﻿<Window x:Class="ManagerClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManagerClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="415" Width="406">
+    <Grid>
+        <TabControl x:Name="tabControl" TabStripPlacement="Bottom" HorizontalContentAlignment="Stretch" Margin="0,0,0,-1" BorderThickness="0">
+            <TabItem Header="LoginTab" Name="loginTab">
+                <Grid Background="#FFE5E5E5">
+                    <Label x:Name="label" Content="Felhasználónév:" HorizontalAlignment="Left" Margin="9,11,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label1" Content="Jelszó:" HorizontalAlignment="Left" Margin="9,42,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="usernameTextBox" HorizontalAlignment="Left" Height="23" Margin="107,14,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="107,45,0,0" VerticalAlignment="Top" Width="120" Height="23"/>
+                    <Button x:Name="loginButton" Content="Bejelentkezés" HorizontalAlignment="Left" Margin="70,73,0,0" VerticalAlignment="Top" Width="91" Click="loginButton_Click"/>
+                    <Label x:Name="loginErrorLabel" Content="" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="UserTab" Name="userTab">
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="290" Margin="10,10,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="listBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding FirstName}" Grid.Column="0" />
+                                    <TextBlock Text="{Binding LastName}" Grid.Column="2" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button x:Name="logoutButton" Content="Kijelentkezés" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="300,329,0,0" Click="logoutButton_Click"/>
+                    <Label x:Name="label2" Content="Azonosító:" HorizontalAlignment="Left" Margin="195,10,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="usernameLabel" Content="" HorizontalAlignment="Left" Margin="266,10,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="label3" Content="Munkával töltött idő:" HorizontalAlignment="Left" Margin="195,41,0,0" VerticalAlignment="Top"/>
+                    <ListBox x:Name="worktimeListBox" HorizontalAlignment="Left" Height="228" Margin="195,72,0,0" VerticalAlignment="Top" Width="180"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
