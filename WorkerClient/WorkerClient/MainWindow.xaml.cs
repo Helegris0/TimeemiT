@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UserService;
+using WorkerClient.ViewModel;
 using Xceed.Wpf.Toolkit;
 
 namespace WorkerClient
@@ -25,11 +26,26 @@ namespace WorkerClient
         private ServiceConsumer serviceConsumer;
         private User user;
 
+        private MainViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
-            serviceConsumer = new ServiceConsumer();
 
+            serviceConsumer = new ServiceConsumer();
+            InitViewModel();
+
+            HideTabItems();
+        }
+
+        private void InitViewModel()
+        {
+            viewModel = new MainViewModel();
+            this.DataContext = viewModel;
+        }
+
+        private void HideTabItems()
+        {
             foreach (TabItem item in tabControl.Items)
             {
                 item.Visibility = Visibility.Collapsed;
@@ -39,14 +55,14 @@ namespace WorkerClient
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = usernameTextBox.Text;
-            string password = passwordBox.Password;
+            string password = passwordTextBox.Text;
 
             user = serviceConsumer.Login(username, password);
 
             if (user != null)
             {
                 usernameTextBox.Clear();
-                passwordBox.Clear();
+                passwordTextBox.Clear();
 
                 FillListBox();
 

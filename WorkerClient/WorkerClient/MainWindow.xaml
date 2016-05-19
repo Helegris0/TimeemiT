@@ -11,11 +11,12 @@
         <TabControl x:Name="tabControl" TabStripPlacement="Bottom" HorizontalContentAlignment="Stretch" Margin="0,0,0,-1" BorderThickness="0">
             <TabItem Header="LoginTab" Name="loginTab">
                 <Grid Background="#FFE5E5E5">
-                    <Label x:Name="label" Content="Felhasználónév:" HorizontalAlignment="Left" Margin="9,11,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="label1" Content="Jelszó:" HorizontalAlignment="Left" Margin="9,42,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="usernameTextBox" HorizontalAlignment="Left" Height="23" Margin="107,14,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Margin="107,45,0,0" VerticalAlignment="Top" Width="120" Height="23"/>
-                    <Button x:Name="loginButton" Content="Bejelentkezés" HorizontalAlignment="Left" Margin="70,73,0,0" VerticalAlignment="Top" Width="91" Click="loginButton_Click"/>
+                    <Label x:Name="label" Content="{Binding UsernameLabel}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="23" Width="100"/>
+                    <Label x:Name="label1" Content="{Binding PasswordLabel}" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Height="23" Width="100"/>
+                    <TextBox x:Name="usernameTextBox" HorizontalAlignment="Left" Height="23" Margin="115,10,0,0" TextWrapping="Wrap" Text="{Binding UsernameText}" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="passwordTextBox" HorizontalAlignment="Left" Height="23" Margin="115,38,0,0" TextWrapping="Wrap" Text="{Binding PasswordText}" VerticalAlignment="Top" Width="120"/>
+                    <Button x:Name="loginButton" Content="{Binding LoginButtonContent}" HorizontalAlignment="Left" Margin="70,66,0,0" VerticalAlignment="Top" Width="91" Height="23" Command="{Binding LoginButtonCommand}"/>
+                    <Label x:Name="label4" Content="{Binding ErrorLabel}" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Width="225" Height="73"/>
                 </Grid>
             </TabItem>
             <TabItem Header="UserTab" Name="userTab">
