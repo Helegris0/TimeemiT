@@ -63,7 +63,7 @@ namespace WorkerClient
             Dictionary<DateTime, TimeSpan> dic = serviceConsumer.GetTimes(user);
             foreach (var item in dic)
             {
-                listBox.Items.Add(item.Key + " " + item.Value);
+                listBox.Items.Add(item.Key.ToString().Substring(0, 11) + " munkaóra: " + item.Value);
             }
         }
 

@@ -89,7 +89,7 @@ namespace ManagerClient
 
             foreach (var item in dic)
             {
-                worktimeListBox.Items.Add(item);
+                worktimeListBox.Items.Add(item.Key.ToString().Substring(0, 11) + " munkaóra: " + item.Value);
             }
         }
     }
